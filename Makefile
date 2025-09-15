@@ -6,33 +6,29 @@
 #    By: thiagouemura <thiagouemura@student.42.f    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/11 13:50:32 by thiagouemur       #+#    #+#              #
-#    Updated: 2025/09/11 14:40:21 by thiagouemur      ###   ########.fr        #
+#    Updated: 2025/09/11 16:20:16 by thiagouemur      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = fractol
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror
-
-SRCS =	main.c			\
-		julia.c			\
-		utils.c			\
-		mandelbrot.c	\
-
+SRCS = src/main.c src/julia.c src/mandelbrot.c
 OBJS = $(SRCS:.c=.o)
+INCLUDES = -I ./include -I ./lib/minilibx-linux
+LIBS = -L ./lib/minilibx-linux -lmlx -lXext -lX11 -lm
 
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -lmlx -framework OpenGL -framework AppKit -o $(NAME)
-
+	$(CC) $(CFLAGS) $(OBJS) $(LIBS) -o $(NAME)
 
 %.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 clean:
 	rm -f $(OBJS)
-	
+
 fclean: clean
 	rm -f $(NAME)
 
