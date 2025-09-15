@@ -6,61 +6,53 @@
 /*   By: tkenji-u <tkenji-u@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 13:50:37 by thiagouemur       #+#    #+#             */
-/*   Updated: 2025/09/15 10:38:40 by tkenji-u         ###   ########.fr       */
+/*   Updated: 2025/09/15 18:21:46 by tkenji-u         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/fractol.h"
 
-void	error_and_exit(char *msg)
-{
-	write(2, msg, ft_strlen(msg));
-	write(2, "\n", 1);
-	exit(1);
-}
+// void	error_and_exit(char *msg)
+// {
+// 	write(2, msg, ft_strlen(msg));
+// 	write(2, "\n", 1);
+// 	exit(1);
+// }
 
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
+static double	get_decimal_part(const char *str)
 {
-	size_t	i;
+	double dec = 0.1;
+	double res = 0;
 
-	i = 0;
-	if (n == 0)
-		return (0);
-	while ((s1[i] != '\0' && i < n) || (s2[i] != '\0' && i < n))
+	while (*str >= '0' && *str <= '9')
 	{
-		if (s1[i] != s2[i])
-			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
-		i++;
+		res += (*str - '0') * dec;
+		dec *= 0.1;
+		str++;
 	}
-	return (0);
+	return (res);
 }
 
-size_t	ft_strlen(const char *s)
+double	ft_atof(const char *str)
 {
-	size_t	length;
+	double	res;
+	int		neg;
 
-	length = 0;
-	while (*s)
+	res = 0;
+	neg = 0;
+	if (*str == '-')
 	{
-		s++;
-		length++;
+		neg = 1;
+		str++;
 	}
-	return (length);
-}
-
-int	key_hook(int keycode, t_fractol *f)
-{
-	if (keycode == 65307)
+	while (*str >= '0' && *str <= '9')
+		res = res * 10 + (*str++ - '0');
+	if (*str == '.')
 	{
-		mlx_destroy_window(f->mlx, f->win);
-		exit(0);
+		str++;
+		res += get_decimal_part(str);
 	}
-	return (0);
-}
-
-int	close_window(t_fractol *f)
-{
-	mlx_destroy_window(f->mlx, f->win);
-	exit(0);
-	return (0);
+	if (neg)
+		res = -res;
+	return (res);
 }
