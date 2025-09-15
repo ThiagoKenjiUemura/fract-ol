@@ -3,10 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   julia.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thiagouemura <thiagouemura@student.42.f    +#+  +:+       +#+        */
+/*   By: tkenji-u <tkenji-u@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 13:50:23 by thiagouemur       #+#    #+#             */
-/*   Updated: 2025/09/11 13:50:24 by thiagouemur      ###   ########.fr       */
+/*   Updated: 2025/09/15 10:38:53 by tkenji-u         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../include/fractol.h"
+
+void	render_julia(t_fractol *f)
+{
+	(void)f;
+	write(1, "Julia render\n", 13);
+}
