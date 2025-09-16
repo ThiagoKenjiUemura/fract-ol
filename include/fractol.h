@@ -6,7 +6,7 @@
 /*   By: tkenji-u <tkenji-u@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 13:25:30 by thiagouemur       #+#    #+#             */
-/*   Updated: 2025/09/15 18:21:16 by tkenji-u         ###   ########.fr       */
+/*   Updated: 2025/09/16 18:33:45 by tkenji-u         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@
 # include <unistd.h>
 # include <math.h>
 
-# define WIDTH 1920
-# define HEIGHT 1080
+# define WIDTH 800
+# define HEIGHT 800
 # define MAX_ITER 50
 
 typedef struct s_fractol
@@ -37,18 +37,20 @@ typedef struct s_fractol
 	double	offset_y;
 	int		color;
 	int		fractal_type;
+	double	julia_cx;  
+	double	julia_cy;
 }	t_fractol;
 
 
-int		ft_strncmp(const char *s1, const char *s2, size_t n);
+// int		ft_strncmp(const char *s1, const char *s2, size_t n);
 // size_t	ft_strlen(const char *s);
-// void	init_fract(t_fractol *f);
-// void	error_and_exit(char *msg);
+void	init_fract(t_fractol *f);
 // void	render_mandelbrot(t_fractol *f);
 // void	render_julia(t_fractol *f, double real, double imag);
-// int		close_window(t_fractol *f);
-// int		key_hook(int keycode, t_fractol *f);
+int		close_window(t_fractol *f);
+int		key_hook(int keycode, t_fractol *f);
 // double	ft_atof(const char *str);
 int		ft_clean_exit(t_fractol *f);
+void	put_pixel(t_fractol *f, int x, int y, int color);
 
 #endif
