@@ -6,11 +6,14 @@
 /*   By: tkenji-u <tkenji-u@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 19:20:25 by thiagouemur       #+#    #+#             */
-/*   Updated: 2025/09/19 14:30:07 by tkenji-u         ###   ########.fr       */
+/*   Updated: 2025/09/19 19:21:47 by tkenji-u         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/fractol.h"
+
+static void	render_fractal(t_fractol *f);
+static void	ft_hooks(t_fractol *f);
 
 static void	ft_hooks(t_fractol *f)
 {
@@ -35,6 +38,14 @@ void	init_fract(t_fractol *f)
 		ft_clean_exit(f);
 }
 
+static void	render_fractal(t_fractol *f)
+{
+	if (f->fractal_type == MANDELBROT)
+		render_mandelbrot(f);
+	else
+		render_julia(f);
+}
+
 int	main(int argc, char **argv)
 {
 	t_fractol	f;
@@ -46,10 +57,10 @@ int	main(int argc, char **argv)
 	if (argc < 2)
 		error_and_exit("Usage: ./fractol mandelbrot | julia <real> <imag>");
 	if (!ft_strncmp(argv[1], "mandelbrot", 10))
-		f.fractal_type = 0;
+		f.fractal_type = MANDELBROT;
 	else if (!ft_strncmp(argv[1], "julia", 5) && argc == 4)
 	{
-		f.fractal_type = 1;
+		f.fractal_type = JULIA;
 		f.julia_cx = ft_atof(argv[2]);
 		f.julia_cy = ft_atof(argv[3]);
 	}
@@ -57,9 +68,7 @@ int	main(int argc, char **argv)
 		error_and_exit("Invalid fractal or missing Julia parameters");
 	init_fract(&f);
 	ft_hooks(&f);
-	if (f.fractal_type == 0)
-		render_mandelbrot(&f);
-	else
-		render_julia(&f);
+	render_fractal(&f);
 	mlx_loop(f.mlx);
+	return (0);
 }

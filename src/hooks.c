@@ -6,7 +6,7 @@
 /*   By: tkenji-u <tkenji-u@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 15:18:04 by tkenji-u          #+#    #+#             */
-/*   Updated: 2025/09/19 15:38:58 by tkenji-u         ###   ########.fr       */
+/*   Updated: 2025/09/19 19:16:41 by tkenji-u         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,7 @@
 int	key_hook(int keycode, t_fractol *f)
 {
 	if (keycode == 65307)
-	{
 		ft_clean_exit(f);
-	}
 	return (0);
 }
 
@@ -29,20 +27,22 @@ int	close_window(t_fractol *f)
 
 int	mouse_hook(int button, int x, int y, t_fractol *f)
 {
-	t_complex	pos;
-	double		new_zoom;
+	double	mx_old;
+	double	my_old;
 
-	map_pixel_to_complex(x, y, f, &pos);
+	if (x < 0 || x >= WIDTH || y < 0 || y >= HEIGHT)
+		return (0);
+	mx_old = ft_map_x_to_real(x, f);
+	my_old = ft_map_y_to_imag(y, f);
 	if (button == 4)
-		new_zoom = f->zoom * 1.1;
+		f->zoom *= 1.1;
 	else if (button == 5)
-		new_zoom = f->zoom / 1.1;
+		f->zoom /= 1.1;
 	else
 		return (0);
-	f->offset_x = pos.re - (x - WIDTH / 2.0) / (0.5 * WIDTH * new_zoom);
-	f->offset_y = pos.im - (y - HEIGHT / 2.0) / (0.5 * HEIGHT * new_zoom);
-	f->zoom = new_zoom;
-	if (f->fractal_type == 0)
+	f->offset_x += mx_old - ft_map_x_to_real(x, f);
+	f->offset_y += my_old - ft_map_y_to_imag(y, f);
+	if (f->fractal_type == MANDELBROT)
 		render_mandelbrot(f);
 	else
 		render_julia(f);

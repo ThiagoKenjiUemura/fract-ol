@@ -6,41 +6,13 @@
 /*   By: tkenji-u <tkenji-u@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 13:50:37 by thiagouemur       #+#    #+#             */
-/*   Updated: 2025/09/19 14:31:35 by tkenji-u         ###   ########.fr       */
+/*   Updated: 2025/09/19 19:22:18 by tkenji-u         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/fractol.h"
 
 static double	get_decimal_part(const char *str);
-
-void	error_and_exit(char *msg)
-{
-	int	i;
-
-	i = 0;
-	while (msg[i])
-	{
-		write(2, &msg[i], 1);
-		i++;
-	}
-	write(2, "\n", 1);
-	exit(1);
-}
-
-int	ft_clean_exit(t_fractol *f)
-{
-	if (f->img)
-		mlx_destroy_image(f->mlx, f->img);
-	if (f->win)
-		mlx_destroy_window(f->mlx, f->win);
-	if (f->mlx)
-	{
-		mlx_destroy_display(f->mlx);
-		free(f->mlx);
-	}
-	exit(0);
-}
 
 static double	get_decimal_part(const char *str)
 {
@@ -80,6 +52,34 @@ double	ft_atof(const char *str)
 	if (neg)
 		res = -res;
 	return (res);
+}
+
+void	error_and_exit(char *msg)
+{
+	int	i;
+
+	i = 0;
+	while (msg[i])
+	{
+		write(2, &msg[i], 1);
+		i++;
+	}
+	write(2, "\n", 1);
+	exit(1);
+}
+
+int	ft_clean_exit(t_fractol *f)
+{
+	if (f->img)
+		mlx_destroy_image(f->mlx, f->img);
+	if (f->win)
+		mlx_destroy_window(f->mlx, f->win);
+	if (f->mlx)
+	{
+		mlx_destroy_display(f->mlx);
+		free(f->mlx);
+	}
+	exit(0);
 }
 
 int	ft_strncmp(const char *s1, const char *s2, size_t n)

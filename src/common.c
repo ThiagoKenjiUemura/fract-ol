@@ -6,11 +6,13 @@
 /*   By: tkenji-u <tkenji-u@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 18:19:03 by tkenji-u          #+#    #+#             */
-/*   Updated: 2025/09/19 15:38:37 by tkenji-u         ###   ########.fr       */
+/*   Updated: 2025/09/19 19:21:11 by tkenji-u         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/fractol.h"
+
+static int	ft_create_trgb(int t, int r, int g, int b);
 
 void	put_pixel(t_fractol *f, int x, int y, int color)
 {
@@ -20,10 +22,20 @@ void	put_pixel(t_fractol *f, int x, int y, int color)
 	*(unsigned int *)dst = color;
 }
 
-void	map_pixel_to_complex(int x, int y, t_fractol *f, t_complex *z)
+double	ft_map_x_to_real(int x, t_fractol *f)
 {
-	z->re = (x - WIDTH / 2.0) * (4.0 / WIDTH) / f->zoom + f->offset_x;
-	z->im = (y - HEIGHT / 2.0) * (4.0 / HEIGHT) / f->zoom + f->offset_y;
+	double	mapx;
+
+	mapx = f->offset_x + (x / (double)WIDTH) * (4.0 / f->zoom) - 2.0 / f->zoom;
+	return (mapx);
+}
+
+double	ft_map_y_to_imag(int y, t_fractol *f)
+{
+	double	mapy;
+
+	mapy = f->offset_y + (y / (double)HEIGHT) * (4.0 / f->zoom) - 2.0 / f->zoom;
+	return (mapy);
 }
 
 static int	ft_create_trgb(int t, int r, int g, int b)

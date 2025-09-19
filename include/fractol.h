@@ -6,7 +6,7 @@
 /*   By: tkenji-u <tkenji-u@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 13:25:30 by thiagouemur       #+#    #+#             */
-/*   Updated: 2025/09/19 15:25:02 by tkenji-u         ###   ########.fr       */
+/*   Updated: 2025/09/19 19:23:18 by tkenji-u         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,34 +32,36 @@ typedef struct s_complex
 
 typedef struct s_fractol
 {
-	void	*mlx;
-	void	*win;
-	void	*img;
-	char	*img_data;
-	int		bpp;
-	int		size_line;
-	int		end;
-	double	zoom;
-	double	offset_x;
-	double	offset_y;
-	int		max_iter;
-	int		fractal_type;
-	double	julia_cx;
-	double	julia_cy;
-}			t_fractol;
+	void		*mlx;
+	void		*win;
+	void		*img;
+	char		*img_data;
+	int			bpp;
+	int			size_line;
+	int			end;
+	double		zoom;
+	double		offset_x;
+	double		offset_y;
+	int			max_iter;
+	int			fractal_type;
+	double		julia_cx;
+	double		julia_cy;
+	t_complex	c;
+}				t_fractol;
 
-int		ft_strncmp(const char *s1, const char *s2, size_t n);
-void	init_fract(t_fractol *f);
-void	render_mandelbrot(t_fractol *f);
-void	render_julia(t_fractol *f);
-int		close_window(t_fractol *f);
-int		key_hook(int keycode, t_fractol *f);
-double	ft_atof(const char *str);
-int		ft_clean_exit(t_fractol *f);
-void	put_pixel(t_fractol *f, int x, int y, int color);
-void	map_pixel_to_complex(int x, int y, t_fractol *f, t_complex *z);
-int		color_from_iter(int iter, int max_iter);
-void	error_and_exit(char *msg);
-int		mouse_hook(int button, int x, int y, t_fractol *f);
+int			ft_strncmp(const char *s1, const char *s2, size_t n);
+void		init_fract(t_fractol *f);
+void		render_mandelbrot(t_fractol *f);
+void		render_julia(t_fractol *f);
+int			close_window(t_fractol *f);
+int			key_hook(int keycode, t_fractol *f);
+double		ft_atof(const char *str);
+int			ft_clean_exit(t_fractol *f);
+void		put_pixel(t_fractol *f, int x, int y, int color);
+double		ft_map_x_to_real(int x, t_fractol *f);
+double		ft_map_y_to_imag(int y, t_fractol *f);
+int			color_from_iter(int iter, int max_iter);
+void		error_and_exit(char *msg);
+int			mouse_hook(int button, int x, int y, t_fractol *f);
 
 #endif
