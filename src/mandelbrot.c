@@ -6,7 +6,7 @@
 /*   By: tkenji-u <tkenji-u@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 13:50:34 by thiagouemur       #+#    #+#             */
-/*   Updated: 2025/09/16 18:26:22 by tkenji-u         ###   ########.fr       */
+/*   Updated: 2025/09/19 15:13:57 by tkenji-u         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,14 @@
 
 static int	mandelbrot_iterations(double re, double im, int max_iter)
 {
-	double z_re = 0;
-	double z_im = 0;
-	double tmp;
-	int iter = 0;
+	double	z_re;
+	double	z_im;
+	double	tmp;
+	int		iter;
 
+	z_re = 0;
+	z_im = 0;
+	iter = 0;
 	while (z_re * z_re + z_im * z_im <= 4 && iter < max_iter)
 	{
 		tmp = z_re * z_re - z_im * z_im + re;
@@ -26,16 +29,15 @@ static int	mandelbrot_iterations(double re, double im, int max_iter)
 		z_re = tmp;
 		iter++;
 	}
-	return iter;
+	return (iter);
 }
 
 void	render_mandelbrot(t_fractol *f)
 {
-	int		x;
-	int		y;
-	int		iter;
-	double	re;
-	double	im;
+	int			x;
+	int			y;
+	int			iter;
+	t_complex	c;
 
 	y = 0;
 	while (y < HEIGHT)
@@ -43,9 +45,10 @@ void	render_mandelbrot(t_fractol *f)
 		x = 0;
 		while (x < WIDTH)
 		{
-			map_to_complex(x, y, f, &re, &im);
-			iter = mandelbrot_iterations(re, im, MAX_ITER);
-			put_pixel(f, x, y, color_from_iter(iter, MAX_ITER));
+			c.re = (x - WIDTH / 2.0) * (4.0 / WIDTH) / f->zoom + f->offset_x;
+			c.im = (y - HEIGHT / 2.0) * (4.0 / WIDTH) / f->zoom + f->offset_y;
+			iter = mandelbrot_iterations(c.re, c.im, f->max_iter);
+			put_pixel(f, x, y, color_from_iter(iter, f->max_iter));
 			x++;
 		}
 		y++;

@@ -6,7 +6,7 @@
 /*   By: tkenji-u <tkenji-u@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 18:19:03 by tkenji-u          #+#    #+#             */
-/*   Updated: 2025/09/16 18:25:28 by tkenji-u         ###   ########.fr       */
+/*   Updated: 2025/09/19 15:38:37 by tkenji-u         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,36 @@
 
 void	put_pixel(t_fractol *f, int x, int y, int color)
 {
-	char *dst;
+	char	*dst;
 
 	dst = f->img_data + (y * f->size_line + x * (f->bpp / 8));
 	*(unsigned int *)dst = color;
 }
 
-void	map_to_complex(int x, int y, t_fractol *f, double *re, double *im)
+void	map_pixel_to_complex(int x, int y, t_fractol *f, t_complex *z)
 {
-	*re = (x - WIDTH / 2.0) * (4.0 / WIDTH) / f->zoom + f->offset_x;
-	*im = (y - HEIGHT / 2.0) * (4.0 / WIDTH) / f->zoom + f->offset_y;
+	z->re = (x - WIDTH / 2.0) * (4.0 / WIDTH) / f->zoom + f->offset_x;
+	z->im = (y - HEIGHT / 2.0) * (4.0 / HEIGHT) / f->zoom + f->offset_y;
 }
 
-
-int	color_from_iter(int iter)
+static int	ft_create_trgb(int t, int r, int g, int b)
 {
-	if (iter == MAX_ITER)
-		return 0x000000;
-	return 0x00FF00 * iter / MAX_ITER;
+	int	color;
+
+	color = (t << 24 | r << 16 | g << 8 | b);
+	return (color);
+}
+
+int	color_from_iter(int iter, int max_iter)
+{
+	int	r;
+	int	g;
+	int	b;
+
+	if (iter == max_iter)
+		return (0x000000);
+	r = (iter * 10) % 256;
+	g = (iter * 25) % 256;
+	b = (iter * 45) % 256;
+	return (ft_create_trgb(0, r, g, b));
 }

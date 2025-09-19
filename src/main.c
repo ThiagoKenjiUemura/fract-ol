@@ -6,7 +6,7 @@
 /*   By: tkenji-u <tkenji-u@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 19:20:25 by thiagouemur       #+#    #+#             */
-/*   Updated: 2025/09/16 18:35:01 by tkenji-u         ###   ########.fr       */
+/*   Updated: 2025/09/19 14:30:07 by tkenji-u         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,24 @@
 
 static void	ft_hooks(t_fractol *f)
 {
-	mlx_key_hook(f->win, key_hook, &f);
-	mlx_hook(f->win, 17, 0, close_window, &f);
+	mlx_key_hook(f->win, key_hook, f);
+	mlx_mouse_hook(f->win, mouse_hook, f);
+	mlx_hook(f->win, 17, 0, close_window, f);
 }
 
 void	init_fract(t_fractol *f)
 {
 	f->mlx = mlx_init();
-	if(!f->mlx)
+	if (!f->mlx)
 		ft_clean_exit(f);
 	f->win = mlx_new_window(f->mlx, WIDTH, HEIGHT, "fract-ol");
-	if(!f->win)
+	if (!f->win)
 		ft_clean_exit(f);
 	f->img = mlx_new_image(f->mlx, WIDTH, HEIGHT);
-	if(!f->img)
+	if (!f->img)
 		ft_clean_exit(f);
 	f->img_data = mlx_get_data_addr(f->img, &f->bpp, &f->size_line, &f->end);
-	if(!f->img_data)
+	if (!f->img_data)
 		ft_clean_exit(f);
 }
 
@@ -38,6 +39,7 @@ int	main(int argc, char **argv)
 {
 	t_fractol	f;
 
+	f.max_iter = MAX_ITER;
 	f.zoom = 1;
 	f.offset_x = 0;
 	f.offset_y = 0;
@@ -59,6 +61,5 @@ int	main(int argc, char **argv)
 		render_mandelbrot(&f);
 	else
 		render_julia(&f);
-
 	mlx_loop(f.mlx);
 }
